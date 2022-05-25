@@ -18,7 +18,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath()%>/guestbook"
+				<form action="<%=request.getContextPath()%>/guestbook">
 					method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
