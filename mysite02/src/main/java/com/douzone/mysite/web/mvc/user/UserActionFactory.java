@@ -25,7 +25,17 @@ public class UserActionFactory extends ActionFactory {
 		}else if("login".equals(actionName)) {
 			System.out.println("login");
 			action = new LoginAction();
-		}else {
+		}else if("logout".equals(actionName)) {
+			System.out.println("logout");
+			action = new LogoutAction();
+		}else if("updateform".equals(actionName)) {
+			System.out.println("updateform");
+			action = new UpdateFormAction();
+		}else if("update".equals(actionName)) {
+			System.out.println("update");
+			action = new UpdateAction();
+		}
+		else {
 			action = new DefaultAction();
 		}
 		return action;
