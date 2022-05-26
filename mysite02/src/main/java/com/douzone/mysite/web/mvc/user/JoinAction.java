@@ -30,7 +30,7 @@ public class JoinAction implements Action {
 		
 		new UserRepository().insert(vo);
 		
-		WebUtil.redirect(request, response, request.getContextPath()+"user?a=joinsuccess");
+		WebUtil.redirect(request, response, request.getContextPath() + "/user?a=joinsuccess");
 		
 	}
 
