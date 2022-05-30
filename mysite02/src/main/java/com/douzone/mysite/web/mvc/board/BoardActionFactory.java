@@ -11,13 +11,10 @@ public class BoardActionFactory extends ActionFactory {
 		Action action = null;
 		
 		if("modify".equals(actionName)) {
-			System.out.println("modify");
 			action = new BoardModifyAction();
 		}else if("view".equals(actionName)) {
-			System.out.println("view");
 			action = new BoardViewAction();
 		}else if("write".equals(actionName)) {
-			System.out.println("write");
 			action = new BoardWriteAction();
 		}else {
 			action = new IndexAction(); 
