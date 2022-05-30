@@ -12,7 +12,9 @@ import com.douzone.web.util.WebUtil;
 public class BoardWriteAction implements Action {
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+		
+		
 		WebUtil.forward(request, response, "board/write");
 
 	}

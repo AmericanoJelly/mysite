@@ -15,7 +15,6 @@
 			<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board" class="board-form">
-			<c:choose items='${list }' var='vo' varStatus='status'/>
 				<table class="tbl-ex">
 					<tr>
 						<th colspan="2">글보기</th>
