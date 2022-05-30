@@ -11,3 +11,4 @@ select * from board;
  where a.user_no = b.no
 order by a.g_no desc, a.o_no asc;
  
+select title, contents from board;
