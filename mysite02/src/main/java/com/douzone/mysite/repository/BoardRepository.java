@@ -13,7 +13,6 @@ import com.douzone.mysite.vo.BoardVo;
 
 
 public class BoardRepository {
-
 	
 	public boolean insert(BoardVo vo) {
 		boolean result = false;
@@ -25,17 +24,12 @@ public class BoardRepository {
 			
 			String sql =
 					 " insert into board values "
-				   + " ( null, ?, ?, 0, now(), (select max(g_no)from board)+1, 1, 1, ?)";
+				   + " ( null, ?, ?, 0, now(), (select max(g_no)from board a)+1, 1, 1, 2)";
 			pstmt = connection.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getHit());
-			pstmt.setString(4, vo.getReg_date());
-			pstmt.setLong(5, vo.getG_no());
-			pstmt.setLong(6, vo.getO_no());
-			pstmt.setLong(7, vo.getDept());
-			pstmt.setLong(8, vo.getUser_no());
+			//pstmt.setLong(3, vo.getUser_no());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -121,7 +115,7 @@ public class BoardRepository {
 							+ " where a.user_no = b.no "
 							+ " order by a.g_no desc, a.o_no asc ";
 			pstmt = connection.prepareStatement(sql);
-
+			
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {

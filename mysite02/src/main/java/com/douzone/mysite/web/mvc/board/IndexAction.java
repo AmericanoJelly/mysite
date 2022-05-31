@@ -16,8 +16,9 @@ public class IndexAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		List<BoardVo> list = new BoardRepository().findAll();
-
+	
 		request.setAttribute("list", list);
 		
 		WebUtil.forward(request, response, "board/index");

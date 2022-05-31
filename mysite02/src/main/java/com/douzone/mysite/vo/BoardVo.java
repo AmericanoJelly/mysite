@@ -78,6 +78,5 @@ public class BoardVo {
 				+ reg_date + ", g_no=" + g_no + ", o_no=" + o_no + ", dept=" + dept + ", user_no=" + user_no
 				+ ", user_name=" + user_name + "]";
 	}
-	
-	
+
 }
