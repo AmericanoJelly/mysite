@@ -135,7 +135,7 @@ public class BoardRepository {
 			connection = getConnection();
 
 			String sql =
-					" select title, contents from board where no = ? ";
+					" select title, contents, hit from board where no = ? ";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setLong(1, num);
@@ -144,14 +144,21 @@ public class BoardRepository {
 			if(rs.next()) {
 				String title = rs.getString(1);
 				String contents = rs.getString(2);
+				long hit = rs.getLong(3);
 
 
 				result = new BoardVo();
 				result.setTitle(title);
 				result.setContents(contents);
-
+				result.setHit(hit);
+				
+				String sql2 =
+						" update board set hit = hit+1 where no =?";
+				pstmt = connection.prepareStatement(sql2);
 
 			}
+			
+			
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
@@ -184,7 +191,7 @@ public class BoardRepository {
 			connection = getConnection();
 
 			String sql =
-					" select a.no, a.g_no, a.title, b.name, a.hit, a.reg_date "
+					" select a.no, a.g_no, a.title, b.name, a.hit, a.reg_date, a.user_no "
 							+ " from board a, user b " 
 							+ " where a.user_no = b.no "
 							+ " order by a.g_no desc, a.o_no asc ";
@@ -199,6 +206,7 @@ public class BoardRepository {
 				String name = rs.getString(4);
 				long hit = rs.getLong(5);
 				String reg_date = rs.getString(6);
+				long user_no = rs.getLong(7);
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -207,6 +215,7 @@ public class BoardRepository {
 				vo.setUser_name(name);
 				vo.setHit(hit);
 				vo.setReg_date(reg_date);
+				vo.setUser_no(user_no);
 
 				result.add(vo);
 			}
