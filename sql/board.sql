@@ -11,7 +11,7 @@ select * from board;
  where a.user_no = b.no
  and a.user_no = 2;
  
- delete from board where no = 11
+ delete from board where no = 11;
  
 select title, contents from board;
 
@@ -20,3 +20,6 @@ insert into board values
         
         
 select max(g_no)from board ;
+
+update board set title = "ss", contents="ss";
+
