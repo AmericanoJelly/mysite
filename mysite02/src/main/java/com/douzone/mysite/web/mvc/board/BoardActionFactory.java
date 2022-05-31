@@ -30,6 +30,7 @@ public class BoardActionFactory extends ActionFactory {
 			action = new BoardDeleteAction();
 			
 		}else if("insert".equals(actionName)) {
+			System.out.println("인서트1");
 			action = new BoardInsertAction();
 			
 		}else {

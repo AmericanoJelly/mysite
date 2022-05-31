@@ -46,7 +46,6 @@ public class GuestbookRepository {
 				e.printStackTrace();
 			}
 		}
-		
 		return result;		
 	}
 	

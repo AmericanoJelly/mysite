@@ -98,12 +98,12 @@ public class BoardRepository {
 			
 			String sql =
 					 " insert into board values "
-				   + " ( null, ?, ?, 0, now(), (select max(g_no)from board a)+1, 1, 1, 2)";
+				   + " ( null, ?, ?, 0, now(), (select max(g_no)from board a)+1, 1, 1, ?)";
 			pstmt = connection.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
-			//pstmt.setLong(3, vo.getUser_no());
+			pstmt.setLong(3, vo.getUser_no());
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -135,29 +135,33 @@ public class BoardRepository {
 			connection = getConnection();
 
 			String sql =
-					" select title, contents, hit from board where no = ? ";
+					" select title, contents, hit, user_no from board where no = ? ";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setLong(1, num);
 			rs = pstmt.executeQuery();
-
+			long hit=0;
 			if(rs.next()) {
 				String title = rs.getString(1);
 				String contents = rs.getString(2);
-				long hit = rs.getLong(3);
-
+				hit = rs.getLong(3);
+				long user_no = rs.getLong(4);
 
 				result = new BoardVo();
 				result.setTitle(title);
 				result.setContents(contents);
 				result.setHit(hit);
+				result.setUser_no(user_no);
 				
-				String sql2 =
-						" update board set hit = hit+1 where no =?";
-				pstmt = connection.prepareStatement(sql2);
-
 			}
 			
+			String sql2 =
+					" update board set hit=? where no= ? ";
+			pstmt = connection.prepareStatement(sql2);
+			pstmt.setLong(1, hit+1);
+			pstmt.setLong(2, num);
+			
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

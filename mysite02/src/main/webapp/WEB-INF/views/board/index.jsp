@@ -70,7 +70,7 @@
 				<!-- pager 추가 -->
 
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=write "
+					<a href="${pageContext.request.contextPath }/board?a=write&no=${authUser.no} "
 						id="new-book">글쓰기</a>
 				</div>
 			</div>

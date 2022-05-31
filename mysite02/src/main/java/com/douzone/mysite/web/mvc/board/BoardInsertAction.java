@@ -15,20 +15,22 @@ public class BoardInsertAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
-		//String user_no = request.getParameter("user_no");
-		
-		//long userNo = Long.parseLong(user_no);
+		long user_no =Long.parseLong( request.getParameter("user_no"));
+	
 		
 		BoardVo vo = new BoardVo();
 
 		vo.setTitle(title);
 		vo.setContents(contents);
-		//vo.setUser_no(userNo);
-
+		vo.setUser_no(user_no);
+		
+		
 		new BoardRepository().insert(vo);
 
+		
 		WebUtil.redirect(request, response, request.getContextPath()+"/board");
 
 
