@@ -19,8 +19,10 @@ public class BoardActionFactory extends ActionFactory {
 		}else if("write".equals(actionName)) {
 			action = new BoardWriteAction();
 			
+		}else if("delete".equals(actionName)) {
+			action = new BoardDeleteAction();
+			
 		}else if("insert".equals(actionName)) {
-			System.out.println("인서트액션들어옴");
 			action = new BoardInsertAction();
 			
 		}else {

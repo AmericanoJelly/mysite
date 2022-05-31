@@ -11,26 +11,19 @@ import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.WebUtil;
 
-public class BoardInsertAction implements Action {
+public class BoardDeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
-		//String user_no = request.getParameter("user_no");
-		
-		//long userNo = Long.parseLong(user_no);
+		request.setCharacterEncoding("utf-8");
+		String no = request.getParameter("no");
 		
 		BoardVo vo = new BoardVo();
-
-		vo.setTitle(title);
-		vo.setContents(contents);
-		//vo.setUser_no(userNo);
-
-		new BoardRepository().insert(vo);
-
+		vo.setNo(Long.parseLong(no));
+		
+		new BoardRepository().delete(vo);
+		
 		WebUtil.redirect(request, response, request.getContextPath()+"/board");
-
-
 	}
+
 }

@@ -34,6 +34,7 @@
 				</table>
 				
 				<div class="bottom">
+					<a href="${pageContext.request.contextPath }/board">댓글</a>
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<a href="${pageContext.request.contextPath }/board?a=modify">글수정</a>
 				</div>

@@ -36,7 +36,7 @@
 						<td>${vo.user_name }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.reg_date }</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }" class="del">삭제</a></td>
 					</tr>
 					</c:forEach>
 				<%--<td style="text-align:left; padding-left:10px">

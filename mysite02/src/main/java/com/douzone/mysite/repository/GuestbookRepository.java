@@ -11,6 +11,7 @@ import java.util.List;
 import com.douzone.mysite.vo.GuestBookVo;
 
 public class GuestbookRepository {
+	
 	public boolean insert(GuestBookVo vo) {
 		boolean result = false;
 		Connection connection = null;

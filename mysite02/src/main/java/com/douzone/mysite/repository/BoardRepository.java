@@ -13,6 +13,41 @@ import com.douzone.mysite.vo.BoardVo;
 
 
 public class BoardRepository {
+	public boolean delete(BoardVo vo) {
+		boolean result = false;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = getConnection();
+
+			String sql = "delete from board where no = ? ";
+			pstmt = connection.prepareStatement(sql);
+
+			pstmt.setLong(1, vo.getNo());
+
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+
+		} catch (SQLException e) {
+			System.out.println("드라이버 로딩 실패:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+
+
 	
 	public boolean insert(BoardVo vo) {
 		boolean result = false;
@@ -173,6 +208,5 @@ public class BoardRepository {
 		return connection;
 	}
 
-
-
+	
 }
