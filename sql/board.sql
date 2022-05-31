@@ -11,6 +11,7 @@ select * from board;
  where a.user_no = b.no
  and a.user_no = 2;
  
+ delete from board where no = 11
  
 select title, contents from board;
 
