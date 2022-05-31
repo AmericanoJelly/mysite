@@ -13,11 +13,18 @@ public class BoardActionFactory extends ActionFactory {
 		if("modify".equals(actionName)) {
 			action = new BoardModifyAction();
 			
+		}else if("update".equals(actionName)) {
+			System.out.println("update");
+			action = new BoardUpdateAction();
+			
 		}else if("view".equals(actionName)) {
 			action = new BoardViewAction();
 			
 		}else if("write".equals(actionName)) {
 			action = new BoardWriteAction();
+			
+		}else if("comment".equals(actionName)) {
+			action = new  BoardCommentAction();
 			
 		}else if("delete".equals(actionName)) {
 			action = new BoardDeleteAction();

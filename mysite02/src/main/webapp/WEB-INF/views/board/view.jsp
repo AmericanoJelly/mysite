@@ -15,6 +15,7 @@
 			<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board" class="board-form">
+				
 				<table class="tbl-ex">
 					<tr>
 						<th colspan="2">글보기</th>
@@ -32,11 +33,11 @@
 						</td>
 					</tr>
 				</table>
-				
+			
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board">댓글</a>
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<a href="${pageContext.request.contextPath }/board?a=modify">글수정</a>
+					<a href="${pageContext.request.contextPath }/board">댓글</a>
+					<a href="${pageContext.request.contextPath }/board?a=modify&no=${param.no}">글수정</a>
 				</div>
 			</div>
 		</div>
