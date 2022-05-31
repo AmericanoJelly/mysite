@@ -21,5 +21,7 @@ insert into board values
         
 select max(g_no)from board ;
 
-update board set title = "ss", contents="ss";
+update board set title = "ss", contents="ss" where user_no = 2;
+
+update board set hit = hit+1 where no =16;
 
