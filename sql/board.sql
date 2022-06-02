@@ -3,8 +3,11 @@ desc board;
 select * from board;
 
 
+
  insert into board values ( null, "test01", "안녕하세요 홀홀홀", 33, now(), 1, 1, 1, 1);
   insert into board values ( null, "test02", "testtesteteste", 22, now(), 2, 1, 1, 1);
+  insert into board values ( null, "test011", "t11esttesteteste", 22, now(), 1, 2, 2, 2);
+  
  
  select a.title, b.name, a.hit, a.reg_date
  from board a, user b

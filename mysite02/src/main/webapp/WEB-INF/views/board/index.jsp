@@ -32,12 +32,22 @@
 					</tr>
 					<c:set var='count' value='${fn:length(list) }' />
 					<c:forEach items='${list }' var='vo' varStatus='status'>
-					<c:choose>
-						<c:when test = "${vo.dept == 1}">
+					
 						<tr>
 							<td>${count-status.index }</td>
-							<td style="text-align: left; padding-left: 0px"><a
-								href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
+								<c:choose>
+								<c:when test = "${vo.dept != 1}">
+									<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
+									<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+								</c:when>
+								<c:otherwise>
+								<td style="text-align: left; padding-left: 0px">
+								</c:otherwise>
+								</c:choose>
+							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">
+							${vo.title }
+							</a>
+							</td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.reg_date }</td>
@@ -50,27 +60,6 @@
 							</c:when>
 							</c:choose>
 						</tr>
-						</c:when>
-						<c:otherwise>
-						<tr>
-							<td>${count-status.index }</td>
-							<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
-							<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
-							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
-							<td>${vo.user_name }</td>
-							<td>${vo.hit }</td>
-							<td>${vo.reg_date }</td>
-							
-							<c:choose>
-							<c:when test="${authUser.no == vo.user_no}">
-							<td>
-							<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }"class="del">삭제</a>
-							</td>
-							</c:when>
-							</c:choose>
-						</tr>
-						</c:otherwise>
-					</c:choose>
 					</c:forEach>
 				</table>
 
