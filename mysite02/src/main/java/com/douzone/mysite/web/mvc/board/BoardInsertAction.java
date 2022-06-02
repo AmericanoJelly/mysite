@@ -24,18 +24,13 @@ public class BoardInsertAction implements Action {
 		
 		BoardVo vo = new BoardVo();
 		
-		if(no == user_no) {
-			
-		} else {
+		if(no != user_no) {
 			vo = new BoardRepository().findView(no);
 			new BoardRepository().c_update(vo.getG_no());
 			vo.setG_no(vo.getG_no());
 			vo.setO_no(vo.getO_no());
 			vo.setDept(vo.getDept());
-			
-			System.out.println(vo.getO_no());
-			System.out.println(vo.getDept());
-		}
+		} 
 
 		vo.setTitle(title);
 		vo.setContents(contents);

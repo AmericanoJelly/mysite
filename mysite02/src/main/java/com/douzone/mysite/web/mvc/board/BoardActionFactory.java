@@ -14,7 +14,6 @@ public class BoardActionFactory extends ActionFactory {
 			action = new BoardModifyAction();
 			
 		}else if("update".equals(actionName)) {
-			System.out.println("update");
 			action = new BoardUpdateAction();
 			
 		}else if("view".equals(actionName)) {
