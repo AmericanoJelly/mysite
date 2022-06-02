@@ -85,8 +85,6 @@ public class BoardRepository {
 		return result;
 	}
 
-
-
 	
 	public boolean insert(BoardVo vo) {
 		boolean result = false;

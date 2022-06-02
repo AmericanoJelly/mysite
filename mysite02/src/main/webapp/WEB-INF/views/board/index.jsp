@@ -55,23 +55,64 @@
 				 --%>
 				</table>
 
-				<!-- pager 추가 -->
+					<!-- pager 추가 -->
 				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li><a href="">4</a></li>
-						<li><a href="">5</a></li>
-						<li><a href="">▶</a></li>
-					</ul>
+					<ul><c:if test="${page.page != 1}">
+							<c:choose>
+								<c:when test="${param.kwd!=null}">
+									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page-1}&kwd=${param.kwd}">◀</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page-1}">◀</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:if>												
+						<c:forEach var='i' begin="${page.startPage }" end="${page.totalSize}">
+						<c:choose>
+							<c:when test="${i == page.page}">
+								<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?i=${page.page}">${i}</a></li>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${page.lastPage < i}">
+										<li >${i}</li>
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${param.kwd!=null}">
+												<li ><a href="${pageContext.servletContext.contextPath }/board?i=${i}&kwd=${param.kwd}">${i}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li ><a href="${pageContext.servletContext.contextPath }/board?i=${i}">${i}</a></li>
+											</c:otherwise>
+										</c:choose>										
+									</c:otherwise>
+								</c:choose>							
+							</c:otherwise>
+						</c:choose>
+						</c:forEach>
+						<c:if test="${page.page != page.lastPage}">
+							<c:choose>
+								<c:when test="${param.kwd!=null}">
+									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page+1}&kwd=${param.kwd}">▶</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page+1}">▶</a></li>
+								</c:otherwise>
+							</c:choose>							
+						</c:if>
+						</ul>
 				</div>
 				<!-- pager 추가 -->
 
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=write&no=${authUser.no} "
-						id="new-book">글쓰기</a>
+					<c:choose>
+						<c:when test="${empty authUser.no  }">
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath }/board?a=write&no=${authUser.no} " id="new-book">글쓰기</a>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>
