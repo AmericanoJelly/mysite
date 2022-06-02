@@ -145,15 +145,12 @@ public class BoardRepository {
 		try {
 			connection = getConnection();
 
-			// 3. SQL 준비
 			
-			String sql = "update board set o_no= o_no+1 where g_no = ?";
+			String sql = "update board set Max(o_no)+1 where g_no = ?";
 			pstmt = connection.prepareStatement(sql); 
 
-			// 4. Mapping(bind)
 			pstmt.setLong(1, no);
 			
-			// 4. SQL 실행
 			int count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {

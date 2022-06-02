@@ -72,7 +72,6 @@
 						</c:otherwise>
 					</c:choose>
 					</c:forEach>
-				
 				</table>
 
 				<!-- pager 추가 -->
@@ -96,7 +95,6 @@
 						<li><a href="${pageContext.servletContext.contextPath }/board?p=${pages.nextPage }">▶</a></li>
 					</c:if>
 					
-						
 					</ul>
 				</div>			
 				<!-- pager 추가 -->
