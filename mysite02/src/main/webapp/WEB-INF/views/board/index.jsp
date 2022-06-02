@@ -30,10 +30,12 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-
+					<c:set var='count' value='${fn:length(list) }' />
 					<c:forEach items='${list }' var='vo' varStatus='status'>
+					<c:choose>
+						<c:when test = "${vo.dept == 1}">
 						<tr>
-							<td>${vo.g_no }</td>
+							<td>${count-status.index }</td>
 							<td style="text-align: left; padding-left: 0px"><a
 								href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
 							<td>${vo.user_name }</td>
@@ -48,61 +50,33 @@
 							</c:when>
 							</c:choose>
 						</tr>
+						</c:when>
+						<c:otherwise>
+						<tr>
+							<td>${count-status.index }</td>
+							<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
+							<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
+							<td>${vo.user_name }</td>
+							<td>${vo.hit }</td>
+							<td>${vo.reg_date }</td>
+							
+							<c:choose>
+							<c:when test="${authUser.no == vo.user_no}">
+							<td>
+							<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }"class="del">삭제</a>
+							</td>
+							</c:when>
+							</c:choose>
+						</tr>
+						</c:otherwise>
+					</c:choose>
 					</c:forEach>
-					<%--<td style="text-align:left; padding-left:10px">
-				<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
-				<a href="${pageContext.request.contextPath }/board?a=view">나도..</a></td>
-				 --%>
+				
 				</table>
 
-					<!-- pager 추가 -->
-				<div class="pager">
-					<ul><c:if test="${page.page != 1}">
-							<c:choose>
-								<c:when test="${param.kwd!=null}">
-									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page-1}&kwd=${param.kwd}">◀</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page-1}">◀</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:if>												
-						<c:forEach var='i' begin="${page.startPage }" end="${page.totalSize}">
-						<c:choose>
-							<c:when test="${i == page.page}">
-								<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?i=${page.page}">${i}</a></li>
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${page.lastPage < i}">
-										<li >${i}</li>
-									</c:when>
-									<c:otherwise>
-										<c:choose>
-											<c:when test="${param.kwd!=null}">
-												<li ><a href="${pageContext.servletContext.contextPath }/board?i=${i}&kwd=${param.kwd}">${i}</a></li>
-											</c:when>
-											<c:otherwise>
-												<li ><a href="${pageContext.servletContext.contextPath }/board?i=${i}">${i}</a></li>
-											</c:otherwise>
-										</c:choose>										
-									</c:otherwise>
-								</c:choose>							
-							</c:otherwise>
-						</c:choose>
-						</c:forEach>
-						<c:if test="${page.page != page.lastPage}">
-							<c:choose>
-								<c:when test="${param.kwd!=null}">
-									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page+1}&kwd=${param.kwd}">▶</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a style="color:orange" href="${pageContext.servletContext.contextPath }/board?i=${page.page+1}">▶</a></li>
-								</c:otherwise>
-							</c:choose>							
-						</c:if>
-						</ul>
-				</div>
+				<!-- pager 추가 -->
+				
 				<!-- pager 추가 -->
 
 				<div class="bottom">
