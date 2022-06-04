@@ -13,25 +13,25 @@ import com.douzone.mysite.vo.BoardVo;
 
 
 public class BoardRepository {
-	
+
 
 	public boolean update(BoardVo vo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			connection = getConnection();
-			
+
 			String sql =
-					 " update board set title = ?, contents=? "
-					+" where no = ? ";
+					" update board set title = ?, contents=? "
+							+" where no = ? ";
 			pstmt = connection.prepareStatement(sql);
-			
+
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
 			pstmt.setLong(3, vo.getNo());
-			
+
 			int count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {
@@ -48,15 +48,15 @@ public class BoardRepository {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return result;		
 	}
-	
+
 	public boolean delete(BoardVo vo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			connection = getConnection();
 
@@ -85,29 +85,29 @@ public class BoardRepository {
 		return result;
 	}
 
-	
+
 	public boolean insert(BoardVo vo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			connection = getConnection();
 			if (vo.getG_no() == 0) { 
-			String sql =
-					 " insert into board values "
-				   + " ( null, ?, ?, 0, now(), (select max(g_no)from board a)+1, 1, 1, ?)";
+				String sql =
+						" insert into board values "
+								+ " ( null, ?, ?, 0, now(), (select max(g_no)from board a)+1, 1, 1, ?)";
 				pstmt = connection.prepareStatement(sql);
-				
+
 				pstmt.setString(1, vo.getTitle());
 				pstmt.setString(2, vo.getContents());
 				pstmt.setLong(3, vo.getUser_no());
-			
+
 			}else { 
 				String sql = "insert into board values(null, ?, ?, 0, now(), ?, ?, ?, ?)";
 				pstmt = connection.prepareStatement(sql);
 
-				
+
 				pstmt.setString(1, vo.getTitle());
 				pstmt.setString(2, vo.getContents());
 				pstmt.setLong(3, vo.getG_no());
@@ -116,8 +116,8 @@ public class BoardRepository {
 				pstmt.setLong(6, vo.getUser_no());
 
 			}
-			
-			
+
+
 			int count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {
@@ -134,10 +134,11 @@ public class BoardRepository {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return result;		
 	}
-	
+
+	//comment update
 	public boolean c_update(Long no) {
 		boolean result = false;
 		Connection connection = null;
@@ -145,12 +146,12 @@ public class BoardRepository {
 		try {
 			connection = getConnection();
 
-			
-			String sql = "update board set Max(o_no)+1 where g_no = ?";
+
+			String sql = "update board set (select max(o_no) from board)+1 where g_no = ?";
 			pstmt = connection.prepareStatement(sql); 
 
 			pstmt.setLong(1, no);
-			
+
 			int count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {
@@ -169,7 +170,7 @@ public class BoardRepository {
 		}
 		return result;
 	}
-	
+
 	public BoardVo findView(long num) {
 		BoardVo result = null;
 		Connection connection = null;
@@ -186,6 +187,7 @@ public class BoardRepository {
 			pstmt.setLong(1, num);
 			rs = pstmt.executeQuery();
 			long hit=0;
+
 			if(rs.next()) {
 				String title = rs.getString(1);
 				String contents = rs.getString(2);
@@ -203,17 +205,17 @@ public class BoardRepository {
 				result.setG_no(g_no);
 				result.setDept(dept);
 				result.setO_no(o_no);
-				
+
 			}
-			
+			//hit
 			String sql2 =
 					" update board set hit=? where no= ? ";
 			pstmt = connection.prepareStatement(sql2);
 			pstmt.setLong(1, hit+1);
 			pstmt.setLong(2, num);
-			
+
 			pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
@@ -236,7 +238,7 @@ public class BoardRepository {
 	}
 
 
-	public List<BoardVo> findAll(int pages) {
+	public List<BoardVo> findAll(int page, String kwd) {
 		List<BoardVo> result = new ArrayList<BoardVo>();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -245,14 +247,27 @@ public class BoardRepository {
 		try {
 			connection = getConnection();
 
-			String sql =
-					" select a.no, a.g_no, a.title, b.name, a.hit, a.reg_date, a.user_no, a.dept "
-							+ " from board a, user b " 
-							+ " where a.user_no = b.no "
-							+ " order by a.g_no desc, a.o_no asc limit ?, 5 ";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setLong(1, (pages - 1) * 5);
-			
+			if (kwd == null) {
+				// 3. SQL 준비
+				String sql = "select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no "
+						+ "	from board a, user b " 
+						+ " where a.user_no = b.no "
+						+ "	order by g_no desc, o_no asc limit ?, 5 ";
+				pstmt = connection.prepareStatement(sql);
+
+				// 4. Parameter Mapping
+				pstmt.setInt(1, (page - 1) * 5);
+			}else {
+				String sql =
+						" select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no "
+								+ " from board a, user b " 
+								+ " where a.user_no = b.no "
+								+ "	or a.title like concat('%', ?, '%'))"
+								+ " order by a.g_no desc, a.o_no asc limit ?, 5 ";
+				pstmt = connection.prepareStatement(sql);
+				pstmt.setLong(1, (page - 1) * 5);
+			}
+
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
@@ -264,6 +279,7 @@ public class BoardRepository {
 				String reg_date = rs.getString(6);
 				long user_no = rs.getLong(7);
 				long dept = rs.getLong(8);
+				long o_no = rs.getLong(9);
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -274,6 +290,7 @@ public class BoardRepository {
 				vo.setReg_date(reg_date);
 				vo.setUser_no(user_no);
 				vo.setDept(dept);
+				vo.setO_no(o_no);
 
 				result.add(vo);
 			}
@@ -298,36 +315,52 @@ public class BoardRepository {
 		return result;		
 	}
 
-	public int count() {
+	public int count(String kwd) {
 		int result = 0;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
 		try {
 			connection = getConnection();
-			
-			String sql =
-				"select count(*) from board";
-			pstmt = connection.prepareStatement(sql);
-						
+
+			if (kwd == null) {
+				// 3. SQL 준비
+				String sql = "select count(*) from board";
+				pstmt = connection.prepareStatement(sql);
+
+				// 4. Parameter Mapping
+			} else {
+				// 3. SQL 준비
+				String sql = "select count(*)" + "	from board a, user b" 
+						+ "    where a.user_no = b.no"
+						+ "    and (b.name like concat('%', ?, '%')" 
+						+ "	or a.title like concat('%', ?, '%'))";
+				pstmt = connection.prepareStatement(sql);
+
+				// 4. Parameter Mapping
+				pstmt.setString(1, kwd);
+				pstmt.setString(2, kwd);
+			}
+
+			// 5. SQL 실행
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			// 6. 결과처리
+			if (rs.next()) {
 				result = rs.getInt(1);
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
 			try {
-				if(rs != null) {
+				if (rs != null) {
 					rs.close();
 				}
-				if(pstmt != null) {
+				if (pstmt != null) {
 					pstmt.close();
 				}
-				if(connection != null) {
+				if (connection != null) {
 					connection.close();
 				}
 			} catch (SQLException e) {
@@ -335,14 +368,15 @@ public class BoardRepository {
 			}
 		}
 		return result;
-	}	
+	}
+
 
 	private Connection getConnection() throws SQLException {
 		Connection connection = null;
 
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/webdb?charset=utf8";
+			String url = "jdbc:mysql://192.168.10.38:3306/webdb?charset=utf8";
 			connection = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

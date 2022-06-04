@@ -17,9 +17,10 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="/board" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <input
-						type="submit" value="찾기">
+				<form id="search_form" action='${pageContext.request.contextPath }/board' method="get">
+					<input type="hidden" id="page" name="page" value="1"> 
+					<input type="text" id="kwd" name="kwd" value=""> 
+					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -35,18 +36,16 @@
 					
 						<tr>
 							<td>${count-status.index }</td>
-								<c:choose>
-								<c:when test = "${vo.dept != 1}">
-									<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
-									<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
-								</c:when>
-								<c:otherwise>
-								<td style="text-align: left; padding-left: 0px">
-								</c:otherwise>
-								</c:choose>
-							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">
-							${vo.title }
-							</a>
+						<c:choose>
+						<c:when test = "${vo.dept != 1}">
+							<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
+							<img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' />
+						</c:when>
+						<c:otherwise>
+							<td style="text-align: left; padding-left: 0px">
+						</c:otherwise>
+						</c:choose>
+							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
 							</td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td>
@@ -66,26 +65,43 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-					<c:if test="${pages.currentPage != 1 }">
-						<li><a href="${pageContext.servletContext.contextPath }/board?p=${pages.prevPage }">◀</a></li>
-					</c:if>
-					<c:forEach var='page' begin='${pages.startPage }' end='${pages.lastPage }'>
-						<c:if test="${page == pages.currentPage }">
-							<li class ="selected">${page }</li>
-						</c:if>
-						<c:if test="${page <= pages.totalPage && page ne pages.currentPage }">
-							<li><a href="${pageContext.servletContext.contextPath }/board?p=${page }">${page }</a></li>
-						</c:if>
-						<c:if test="${page > pages.totalPage && pages.totalPage < pages.lastPage }">
-							${page }
-						</c:if>
-					</c:forEach>
-					<c:if test="${pages.currentPage < pages.totalPage }">
-						<li><a href="${pageContext.servletContext.contextPath }/board?p=${pages.nextPage }">▶</a></li>
-					</c:if>
-					
+						<c:choose>
+							<c:when test="${param.page == 1 }">
+								<li>◀</li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="${pageContext.request.contextPath }/board?page=${param.page-1 }">◀</a></li>
+							</c:otherwise>
+						</c:choose>
+
+						<c:forEach begin="${startPage }" end="${endPage }" var="page"
+							step="1">
+							<c:choose>
+								<c:when test="${param.page == page }">
+									<li class="selected">${page }</li>
+								</c:when>
+								<c:when test="${page > lastPage }">
+									<li>${page }</li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="${pageContext.request.contextPath }/board?page=${page }">${page }</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+
+						<c:choose>
+							<c:when test="${param.page != lastPage }">
+								<li><a
+									href="${pageContext.request.contextPath }/board?page=${param.page+1 }">▶</a></li>
+							</c:when>
+							<c:otherwise>
+								<li>▶</li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
-				</div>			
+				</div>
 				<!-- pager 추가 -->
 
 				<div class="bottom">

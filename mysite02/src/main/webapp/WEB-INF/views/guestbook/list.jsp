@@ -37,10 +37,7 @@
 				</form>
 				<br>
 
-				<%-- <%
-				int count = list.size();
-				for (GuestBookVo vo : list) {
-				%> --%>
+		
 				<c:set var='count' value='${fn:length(list) }' />
 				<c:forEach items='${list }' var='vo' varStatus='status'>
 				<table width=510 border=1>
