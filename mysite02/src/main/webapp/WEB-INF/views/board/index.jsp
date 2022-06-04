@@ -31,11 +31,9 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var='count' value='${fn:length(list) }' />
 					<c:forEach items='${list }' var='vo' varStatus='status'>
-					
 						<tr>
-							<td>${count-status.index }</td>
+							<td>${count - status.index }</td>
 						<c:choose>
 						<c:when test = "${vo.dept != 1}">
 							<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
