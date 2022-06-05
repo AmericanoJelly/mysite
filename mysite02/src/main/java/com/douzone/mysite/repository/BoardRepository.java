@@ -248,25 +248,25 @@ public class BoardRepository {
 			connection = getConnection();
 
 			if (kwd == null) {
-				// 3. SQL 준비
 				String sql = "select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no "
 						+ "	from board a, user b " 
 						+ " where a.user_no = b.no "
 						+ "	order by g_no desc, o_no asc limit ?, 5 ";
 				pstmt = connection.prepareStatement(sql);
 
-				// 4. Parameter Mapping
 				pstmt.setInt(1, (page - 1) * 5);
 			}else {
 				String sql =
 						" select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no "
 								+ " from board a, user b " 
 								+ " where a.user_no = b.no "
-								+ "	and (a.title like concat('%', ?, '%'))"
+								+ "	and (a.title like concat('%', ?, '%')"
+								+ " or b.name like concat('%', ?, '%'))"
 								+ " order by a.g_no desc, a.o_no asc limit ?, 5 ";
 				pstmt = connection.prepareStatement(sql);
 				pstmt.setString(1, kwd);
-				pstmt.setLong(2, (page - 1) * 5);
+				pstmt.setString(2, kwd);
+				pstmt.setLong(3, (page - 1) * 5);
 			}
 
 			rs = pstmt.executeQuery();
@@ -325,28 +325,24 @@ public class BoardRepository {
 			connection = getConnection();
 
 			if (kwd == null) {
-				// 3. SQL 준비
 				String sql = "select count(*) from board";
 				pstmt = connection.prepareStatement(sql);
 
-				// 4. Parameter Mapping
 			} else {
-				// 3. SQL 준비
-				String sql = "select count(*)" + "	from board a, user b" 
-						+ "    where a.user_no = b.no"
-						+ "    and (b.name like concat('%', ?, '%')" 
-						+ "	or a.title like concat('%', ?, '%'))";
+			
+				String sql = "select count(*)" 
+						+ "	from board a, user b" 
+						+ " where a.user_no = b.no"
+						+ " and ( a.title like concat('%', ?, '%')"
+						+ "	or b.name like concat('%', ?, '%') )";
 				pstmt = connection.prepareStatement(sql);
 
-				// 4. Parameter Mapping
 				pstmt.setString(1, kwd);
 				pstmt.setString(2, kwd);
 			}
 
-			// 5. SQL 실행
 			rs = pstmt.executeQuery();
 
-			// 6. 결과처리
 			if (rs.next()) {
 				result = rs.getInt(1);
 			}
