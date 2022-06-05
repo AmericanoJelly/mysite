@@ -28,3 +28,9 @@ update board set title = "ss", contents="ss" where user_no = 2;
 
 update board set hit = hit+1 where no =16;
 
+select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no 
+						from board a, user b 
+						where a.user_no = b.no 
+						or a.title like concat('%', title, '%')
+						order by a.g_no desc, a.o_no asc;
+
