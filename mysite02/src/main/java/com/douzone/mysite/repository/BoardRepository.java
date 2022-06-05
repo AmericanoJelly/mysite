@@ -147,7 +147,7 @@ public class BoardRepository {
 			connection = getConnection();
 
 
-			String sql = "update board set (select max(o_no) from board)+1 where g_no = ?";
+			String sql = "update board set MAX(o_no)+1 where g_no = ?";
 			pstmt = connection.prepareStatement(sql); 
 
 			pstmt.setLong(1, no);
@@ -262,10 +262,11 @@ public class BoardRepository {
 						" select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r'), a.user_no, a.dept, a.o_no "
 								+ " from board a, user b " 
 								+ " where a.user_no = b.no "
-								+ "	or a.title like concat('%', ?, '%'))"
+								+ "	and (a.title like concat('%', ?, '%'))"
 								+ " order by a.g_no desc, a.o_no asc limit ?, 5 ";
 				pstmt = connection.prepareStatement(sql);
-				pstmt.setLong(1, (page - 1) * 5);
+				pstmt.setString(1, kwd);
+				pstmt.setLong(2, (page - 1) * 5);
 			}
 
 			rs = pstmt.executeQuery();
@@ -283,14 +284,14 @@ public class BoardRepository {
 
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
-				vo.setG_no(g_no);
 				vo.setTitle(title);
 				vo.setUser_name(name);
 				vo.setHit(hit);
 				vo.setReg_date(reg_date);
-				vo.setUser_no(user_no);
-				vo.setDept(dept);
+				vo.setG_no(g_no);
 				vo.setO_no(o_no);
+				vo.setDept(dept);
+				vo.setUser_no(user_no);
 
 				result.add(vo);
 			}
