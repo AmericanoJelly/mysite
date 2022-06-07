@@ -8,6 +8,6 @@ public class MainController {
 
 	@RequestMapping({"", "/main"}) //원래 안에 "/"들어가야함 
 	public String index() {
-		return "WEB-INF/views/main/index.jsp";
+		return "main/index";
 	}
 }
