@@ -1,7 +1,7 @@
 package com.douzone.mysite.web.mvc.board;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,41 +17,36 @@ public class IndexAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-String pageNum = request.getParameter("p");
-		
-		if(pageNum == null) {
-			pageNum = "1";
-		}
-		int limit = 5;
-		
-		HashMap<String, Integer> pages = new HashMap<String, Integer>();
-		int currentPage = Integer.parseInt(pageNum);
-		
-		int startPage = limit * ((int)Math.ceil((double)currentPage / limit)-1)+1;
-		if(startPage < 1) {
+		String kwd = request.getParameter("page") != null ? request.getParameter("kwd") : null;
+ 
+		int currentPage = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
+		int startPage = 0;
+		int lastPage = 0;
+		int endPage = 0;
+		int count = 0;
+
+		List<BoardVo> list = new ArrayList<>();
+
+		list = new BoardRepository().findAll(currentPage, kwd);
+		lastPage = (new BoardRepository().count(kwd) - 1) / 5 + 1;
+		count = new BoardRepository().count(kwd) - (5 * (currentPage - 1));
+
+		if (currentPage < 4 || lastPage <= 5) {
 			startPage = 1;
+			endPage = 5;
+		} else if ((lastPage - currentPage) > 1) {
+			startPage = currentPage - 2;
+			endPage = currentPage + 2;
+		} else {
+			endPage = lastPage;
+			startPage = endPage - 4;
 		}
-		
-		
-		int totalPage = (new BoardRepository().count() % limit) == 0 ? new BoardRepository().count()/limit : new BoardRepository().count()/limit+1;
-		int lastPage = startPage + (limit - 1) > totalPage ? totalPage : startPage + (limit-1);
-		int prevPage = currentPage - 1 < 0 ? 1 : currentPage - 1;
-		int nextPage = currentPage + 1 > totalPage ? totalPage : currentPage + 1;
-		
-		pages.put("currentPage", currentPage);
-		pages.put("startPage", startPage);
-		pages.put("totalPage", totalPage);
-		pages.put("lastPage", lastPage);
-		pages.put("prevPage", prevPage);
-		pages.put("nextPage", nextPage);
-		
-		int totalBoard = new BoardRepository().count();
-		request.setAttribute("totalBoard", totalBoard);
-		
-		List<BoardVo> list = new BoardRepository().findAll(currentPage);
-		request.setAttribute("list", list);
-		request.setAttribute("pages", pages);
+
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("count", count);
+		request.setAttribute("list", list); 
 		WebUtil.forward(request, response, "board/index");
 	}
 
