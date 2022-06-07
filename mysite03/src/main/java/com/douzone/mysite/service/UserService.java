@@ -17,4 +17,17 @@ public class UserService {
 		
 	}
 
+	public UserVo getUser(UserVo vo) {
+		return userRepository.findByEmailAndPassword(vo);
+	}
+
+	public UserVo getUser(Long no) {
+		return userRepository.findByNo(no);
+	}
+
+	public boolean updateUser(UserVo vo) {
+		return userRepository.update(vo);
+		
+	}
+
 }
