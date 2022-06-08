@@ -19,10 +19,7 @@ public class GuestbookService {
 	}
 	
 	public boolean deleteMassage(Long no, String password ) {
-		GuestBookVo vo = new GuestBookVo();
-		vo.setNo(no);
-		vo.setPassword(password);
-		return guestbookRepository.delete(vo);
+		return guestbookRepository.delete(no, password);
 	}
 	
 
