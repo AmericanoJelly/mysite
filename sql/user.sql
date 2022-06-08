@@ -11,3 +11,6 @@ and password = '0000';
 
 update user set name='yujin', email='jyj@mysite.com', password='1234', gender='male'
 where no = 2;
+
+
+
