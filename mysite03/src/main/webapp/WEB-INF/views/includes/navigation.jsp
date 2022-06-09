@@ -5,7 +5,8 @@
 <div id="navigation">
 	<ul>
 		<li><a href="${pageContext.request.contextPath }">정유진</a></li>
-		<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
-		<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+		<li><a href="${pageContext.request.contextPath }/guestbook">guestbook</a></li>
+		<li><a href="${pageContext.request.contextPath }/board">board</a></li>
+		<li><a href="${pageContext.request.contextPath }/gallery">gallery</a></li>
 	</ul>
 </div>
