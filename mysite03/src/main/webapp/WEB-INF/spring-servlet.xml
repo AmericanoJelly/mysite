@@ -29,7 +29,7 @@
 	</bean>
 	
 	<!-- MVC Resource Mapping -->
-	<mvc:resources  mapping="/images/**" location="file:User/yujin/mysite-uploads/ "/> <!-- mac = User/yujin/mysite-uploads/ -->
+	<mvc:resources mapping="/assets/gallery/**" location="file:/mysite-uploads/" /><!-- mac = User/yujin/mysite-uploads/ -->
 	<!-- 멀티파트 리졸버 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
