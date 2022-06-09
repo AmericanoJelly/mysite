@@ -31,7 +31,7 @@
 					<img id="profile" style="width:120px" src="${pageContext.request.contextPath }/assets/images/kk.jpg">
 					<img id="profile" style="width:120px" src="${pageContext.request.contextPath }/assets/images/kk.jpg">
 					<img id="profile" style="width:120px" src="${pageContext.request.contextPath }/assets/images/kk.jpg">
-						<a href="${pageContext.request.contextPath }/guestbook">방명록</a>에 글 남기기<br>
+						<br><a href="${pageContext.request.contextPath }/guestbook">방명록</a>에 글 남기기<br>
 					</p>
 				</div>
 			</div>
