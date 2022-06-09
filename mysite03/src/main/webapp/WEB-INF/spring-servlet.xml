@@ -28,6 +28,22 @@
 	   <property name="order" value="1" />
 	</bean>
 	
+	<!-- MVC Resource Mapping -->
+	<mvc:resources  mapping="/images/**" location="file:User/yujin/mysite-uploads/ "/> <!-- mac = User/yujin/mysite-uploads/ -->
+	<!-- 멀티파트 리졸버 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		<!-- 최대업로드 가능한 바이트크기 -->
+		<property name="maxUploadSize" value="52428800" />
+	
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+		<property name="maxInMemorySize" value="1024000"/>
+	
+		<!-- DefaultEncoding -->	
+		<property name="defaultEncoding" value="utf-8" />
+		
+	</bean>
+	
 	
 
 	<!-- 어노테이션 설정: 자동(auto) 빈(bean) 스캐닝(scanning)-->
