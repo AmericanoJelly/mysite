@@ -9,18 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.GuestBookVo;
 
 @Service
 public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 	
-//	public  BoardVo getContents(long num){
-//		return boardRepository.findView(num);
-//	}
-	
 	public List<BoardVo> getMessageList(int page, String kwd){
+		System.out.println("");
+		List<BoardVo> vo = boardRepository.findAll(page,kwd);
+		System.out.println(vo);
 		return boardRepository.findAll(page,kwd);
 	}
 
@@ -56,6 +54,12 @@ public class BoardService {
 		return result;
 	}
 
+	public boolean write(BoardVo vo) {
+		return boardRepository.insert(vo);
+	}
 
+	public boolean Update(BoardVo vo) {
+		return boardRepository.update(vo);
+	}
 
 }

@@ -22,13 +22,13 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>${vo.title }</td>
+						<td>${boardVo.title }</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								${vo.contents }
+								${boardVo.contents }
 							</div>
 						</td>
 					</tr>
@@ -37,10 +37,10 @@
 				<div class="bottom">
 				
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<a href="${pageContext.request.contextPath }/board?a=write&no=${param.no}">댓글</a>
+					<a href="${pageContext.request.contextPath }/board/write/${boardVo.no}">댓글</a>
 					<c:choose>
-					<c:when test="${authUser.no == vo.user_no}">
-					<a href="${pageContext.request.contextPath }/board?a=modify&no=${param.no}">글수정</a>
+					<c:when test="${authUser.no == boardVo.user_no}">
+					<a href="${pageContext.request.contextPath }/board/modify/${boardVo.no}">글수정</a>
 					</c:when>
 					</c:choose>
 				</div>

@@ -2,21 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
+	<insert id="insert" parameterType="boardvo">
+	<choose>
+		<when test='g_no == 0'>
+		<![CDATA[
+		insert into board values
+			 (null, #{title }, #{contents }, 0, now(), (select max(g_no)from board a)+1, 1, 1, #{user_no })
+		]]>
+		</when>
+		<otherwise>
+		<![CDATA[
+		insert into board values(null, #{title }, #{contents }, 0, now(),#{g_no }, #{o_no }, #{dept },#{user_no })
+		]]>
+		</otherwise>
+	</choose>
+	</insert>
+
 	<select id="findView" parameterType="long" resultType="boardvo">
 		<![CDATA[
-			select title, contents, hit, user_no, g_no ,dept ,o_no
+			select *
 			 from board where no = #{no }
-			
+		]]>
+<!-- <![CDATA[
 			update board set hit=#{hit }
 			 where no= #{no }
-		]]>
+		]]> -->
 	</select>
 
 	<select id="findAll" parameterType="map" resultType="boardvo">
 		<choose>
 			<when test='kwd == ""'>
 				<![CDATA[
-					select a.no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r') as regDate, a.g_no, a.o_no, a.dept, a.user_no as userNo
+					select a.no, a.title, b.name as user_name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r')as reg_date, a.g_no, a.o_no, a.dept, a.user_no
 						from board a, user b
 						where a.user_no = b.no
 				  	 	order by g_no desc, o_no asc limit #{page }, 5
@@ -24,7 +41,7 @@
 			</when>
 			<otherwise>
 				<![CDATA[
-					select a.no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r') as regDate, a.g_no, a.o_no, a.dept, a.user_no as userNo
+					select a.no, a.title, b.name as user_name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r')as reg_date, a.g_no, a.o_no, a.dept, a.user_no
 						from board a, user b
 						where a.user_no = b.no
 						and (a.title like '%${kwd }%' or b.name like '%${kwd }%')
@@ -52,6 +69,13 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<update id="update" parameterType="boardvo">
+		<![CDATA[
+			update board set title =#{title}, contents=#{contents} 
+				where no = #{no}
+		]]>
+	</update>
 
 
 </mapper>

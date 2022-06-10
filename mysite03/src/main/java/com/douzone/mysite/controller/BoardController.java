@@ -1,15 +1,19 @@
 package com.douzone.mysite.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.UserVo;
 
 
 @Controller
@@ -33,18 +37,64 @@ public class BoardController {
 		return "board/index";
 	}
 	
-	@RequestMapping("/view/{no}")
+	@RequestMapping(value="/view/{no}")
 	public String view(@PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("boardVo", vo);
 		return "board/view";
 	}
 	
-//	@RequestMapping("")
-//	public String getContents(@PathVariable("num") Long num, Model model) {
-//		BoardVo vo = boardService.getContents(num);
-//		model.addAttribute("boardVo", vo);
-//		return "board/index";
-//	}
-
+	@RequestMapping(value ={"/write", "/write/{no}"}, method = RequestMethod.GET)
+	public String write(HttpSession session,@PathVariable(value="no", required = false) Long no, Model model) {
+		//접근제어
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		///////////////////////////
+		BoardVo vo = boardService.getContents(no);
+		model.addAttribute("boardVo", vo);
+		return "/board/write";
+	}
+	
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String write(HttpSession session, BoardVo vo) {
+		//접근제어
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		///////////////////////////
+		vo.setUser_no(authUser.getNo());
+		boardService.write(vo);
+		return "redirect:/board";
+	}
+	
+	@RequestMapping("/modify/{no}")
+	public String modify(HttpSession session,@PathVariable("no") Long no, Model model) {
+		//접근제어
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		///////////////////////////
+		BoardVo vo = boardService.getContents(no);
+		model.addAttribute("boardVo", vo);
+		return "/board/modify";
+	}
+	
+	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
+	public String modify(HttpSession session, @PathVariable("no") Long no, BoardVo vo) {
+		//접근제어
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		///////////////////////////
+		boardService.Update(vo);
+		return "redirect:/board/view/{no}";
+	}
+	
+	
 }
+

@@ -43,7 +43,7 @@
 							<td style="text-align: left; padding-left: 0px">
 						</c:otherwise>
 						</c:choose>
-							<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+							<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a>
 							</td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td>
@@ -52,7 +52,7 @@
 							<c:choose>
 							<c:when test="${authUser.no == vo.user_no}">
 							<td>
-							<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }"class="del">삭제</a>
+							<a href="${pageContext.request.contextPath }/board/delete/${vo.no }"class="del">삭제</a>
 							</td>
 							</c:when>
 							</c:choose>
@@ -69,7 +69,7 @@
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.request.contextPath }/board?page=${param.page-1 }">◀</a></li>
+									href="${pageContext.request.contextPath }board/page/${param.page-1 }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 
@@ -84,7 +84,7 @@
 								</c:when>
 								<c:otherwise>
 									<li><a
-										href="${pageContext.request.contextPath }/board?page=${page }">${page }</a></li>
+										href="${pageContext.request.contextPath }/board/page/${page }">${page }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -92,7 +92,7 @@
 						<c:choose>
 							<c:when test="${param.page != lastPage }">
 								<li><a
-									href="${pageContext.request.contextPath }/board?page=${param.page+1 }">▶</a></li>
+									href="${pageContext.request.contextPath }/board/page/${param.page+1 }">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li>▶</li>
@@ -107,7 +107,7 @@
 						<c:when test="${empty authUser.no  }">
 						</c:when>
 						<c:otherwise>
-							<a href="${pageContext.request.contextPath }/board?a=write&no=${authUser.no} " id="new-book">글쓰기</a>
+							<a href="${pageContext.request.contextPath }/board/write/${vo.no }" id="new-book">글쓰기</a>
 						</c:otherwise>
 					</c:choose>
 				</div>

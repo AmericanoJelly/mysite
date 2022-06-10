@@ -34,3 +34,10 @@ select a.no, a.g_no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %
 						or a.title like concat('%', title, '%')
 						order by a.g_no desc, a.o_no asc;
 
+select no, title, contents, hit, user_no, g_no ,dept ,o_no
+			 from board where no = 66;
+             
+             select a.no, a.title, b.name, a.hit, date_format(a.reg_date, '%Y-%m-%d %r')as regDate, a.g_no as gNo, a.o_no as oNo, a.dept, a.user_no as userNo
+						from board a, user b
+						where a.user_no = b.no;
+				  	 
