@@ -20,7 +20,6 @@ public class GalleryRepository {
 	}
 
 	public Boolean delete(Long no) {
-		
 		return sqlSession.delete("gallery.delete", no) == 1 ;
 	}
 

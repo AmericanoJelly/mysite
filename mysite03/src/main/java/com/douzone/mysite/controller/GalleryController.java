@@ -24,7 +24,7 @@ public class GalleryController {
 	@Autowired
 	private GalleryService galleryService;
 
-	@RequestMapping("")
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public String index(Model model) {
 		List<GalleryVo> list = galleryService.getImages();
 		model.addAttribute("list", list);
@@ -34,7 +34,7 @@ public class GalleryController {
 	@RequestMapping("/delete/{no}")
 	public String remove(@PathVariable("no") Long no) {
 		galleryService.removeImages(no);
-		return "gallery/index";
+		return "redirect:/gallery";
 	}
 	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)

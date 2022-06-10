@@ -19,7 +19,6 @@ public class GalleryService {
 	}
 	
 	public Boolean removeImages(Long no) {
-		System.out.println(no);
 		return galleryRepository.delete(no);
 	}
 	

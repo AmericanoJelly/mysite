@@ -4,19 +4,19 @@
 
 	<select id="findAll" resultType="galleryvo">
 		<![CDATA[
-			select  url, comments 
+			select * 
 			 from gallery
 			 order by no
 		]]>
 	</select>
 	
-	<delete id="delete" parameterType="long">
+	<delete id="delete" parameterType="long" >
 		<![CDATA[
 			delete from gallery where no = #{no } 
 		]]>
 	</delete>
 	
-	<insert id="insert">
+	<insert id="insert" parameterType="galleryvo" >
 		<![CDATA[ 
 			insert  into gallery
 			 values (null, #{url }, #{comments })
