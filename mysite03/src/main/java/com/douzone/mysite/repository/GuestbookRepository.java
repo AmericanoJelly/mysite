@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StopWatch;
+
 
 import com.douzone.mysite.vo.GuestBookVo;
 
@@ -25,16 +25,7 @@ public class GuestbookRepository {
 	}
 	
 	public List<GuestBookVo> findAll() {
-		//before
-		StopWatch sw = new StopWatch();
-		sw.start();
-		
-		List<GuestBookVo> list =  sqlSession.selectList("guestbook.findAll");
-		
-		sw.stop();
-		Long totalTime = sw.getTotalTimeMillis();
-		System.out.println("[Exception Time][GuestbookRepository.findAll]"+ totalTime + "millis");
-		return list;
+		return sqlSession.selectList("guestbook.findAll");
 	}
 	
 	public boolean delete(Long no , String password) {

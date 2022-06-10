@@ -2,4 +2,4 @@ desc gallery;
 
 select no, url, comments from gallery;
 
-delete from gallery no = 1;
+delete from gallery where no = 8;
