@@ -23,11 +23,21 @@
 			select *
 			 from board where no = #{no }
 		]]>
-<!-- <![CDATA[
-			update board set hit=#{hit }
-			 where no= #{no }
-		]]> -->
 	</select>
+		
+	<update id="updateHit" parameterType="long" >
+	<![CDATA[
+			update board set hit=hit+1
+			 where no= #{no }
+		]]>
+	</update>	
+	
+	<insert id="comments" parameterType="boardvo">
+	<![CDATA[
+			update board set MAX(o_no)+1 where g_no =#{no }
+		]]>
+	</insert>	
+
 
 	<select id="findAll" parameterType="map" resultType="boardvo">
 		<choose>
@@ -76,6 +86,12 @@
 				where no = #{no}
 		]]>
 	</update>
+	
+	<delete id="delete" parameterType="long" >
+		<![CDATA[
+			delete from board where no =#{no } 
+		]]>
+	</delete>
 
 
 </mapper>

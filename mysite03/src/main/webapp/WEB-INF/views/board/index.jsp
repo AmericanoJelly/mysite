@@ -52,7 +52,7 @@
 							<c:choose>
 							<c:when test="${authUser.no == vo.user_no}">
 							<td>
-							<a href="${pageContext.request.contextPath }/board/delete/${vo.no }"class="del">삭제</a>
+							<a href="${pageContext.request.contextPath }/board/delete/${vo.no }"class="del"style="background-image:url(${pageContext.request.contextPath }/assets/images/recycle.png)">삭제</a>
 							</td>
 							</c:when>
 							</c:choose>

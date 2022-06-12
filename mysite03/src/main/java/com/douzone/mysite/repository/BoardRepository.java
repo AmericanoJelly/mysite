@@ -25,81 +25,24 @@ public class BoardRepository {
 		return result;
 	}
 
-	public boolean delete(BoardVo vo) {
-		boolean result = false;
-		Connection connection = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			connection = getConnection();
-
-			String sql = "delete from board where no = ? ";
-			pstmt = connection.prepareStatement(sql);
-
-			pstmt.setLong(1, vo.getNo());
-
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-
-		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
+	public boolean delete(Long no) {
+		return sqlSession.delete("board.delete", no) == 1 ;
 	}
 
 
 	public boolean insert(BoardVo vo) {
-		boolean result =  sqlSession.insert("board.insert", vo) == 1;
-		System.out.println("인서트인서트"+ vo);
-		return result;
-	}
-
-	//comment update
-	public boolean c_update(Long no) {
-		boolean result = false;
-		Connection connection = null;
-		PreparedStatement pstmt = null;
-		try {
-			connection = getConnection();
-
-
-			String sql = "update board set MAX(o_no)+1 where g_no = ?";
-			pstmt = connection.prepareStatement(sql); 
-
-			pstmt.setLong(1, no);
-
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-		} catch (SQLException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-
-			}
+		if(vo.getG_no() != 0) {
+			return sqlSession.insert("board.comments", vo) == 1;	
 		}
-		return result;
+		return  sqlSession.insert("board.insert", vo) == 1;
 	}
-
+	
 	public BoardVo findView(Long no) {
 		return sqlSession.selectOne("board.findView", no);
+	}
+	
+	public boolean updateHit(Long no) {
+		return sqlSession.update("board.updateHit", no) == 1;
 	}
 
 
@@ -116,21 +59,6 @@ public class BoardRepository {
 	public int count(String kwd) {
 		return sqlSession.selectOne("board.count", kwd);
 	}
-
-	private Connection getConnection() throws SQLException {
-		Connection connection = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://192.168.10.38:3306/webdb?charset=utf8";
-			connection = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		}
-
-		return connection;
-	}
-
 
 
 }

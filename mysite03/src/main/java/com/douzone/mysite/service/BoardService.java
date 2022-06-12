@@ -47,19 +47,31 @@ public class BoardService {
 	}
 	
 	public BoardVo getContents(Long no) {
-		BoardVo result = null;
-		if (no != null) {
-			result = boardRepository.findView(no);
-		}
-		return result;
+		return boardRepository.findView(no);
 	}
 
 	public boolean write(BoardVo vo) {
+		if(vo.getG_no() != 0){
+			BoardVo vo2 = boardRepository.findView(vo.getNo());
+			vo.setG_no(vo2.getG_no());
+			vo.setO_no(vo2.getO_no() + 1);
+			vo.setDept(vo2.getDept() + 1);
+		}
 		return boardRepository.insert(vo);
 	}
-
+	
 	public boolean Update(BoardVo vo) {
 		return boardRepository.update(vo);
 	}
 
+	public boolean delete(Long no) {
+		return boardRepository.delete(no);
+	}
+
+	public boolean updateHit(Long no) {
+		return boardRepository.updateHit(no);
+	}
+		
 }
+
+

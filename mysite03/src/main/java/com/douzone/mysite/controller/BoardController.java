@@ -40,7 +40,9 @@ public class BoardController {
 	@RequestMapping(value="/view/{no}")
 	public String view(@PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.getContents(no);
+		boardService.updateHit(no);
 		model.addAttribute("boardVo", vo);
+		
 		return "board/view";
 	}
 	
@@ -70,6 +72,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	
 	@RequestMapping("/modify/{no}")
 	public String modify(HttpSession session,@PathVariable("no") Long no, Model model) {
 		//접근제어
@@ -93,6 +96,12 @@ public class BoardController {
 		///////////////////////////
 		boardService.Update(vo);
 		return "redirect:/board/view/{no}";
+	}
+	
+	@RequestMapping("/delete/{no}")
+	public String delete(@PathVariable("no") Long no) {
+		boardService.delete(no);
+		return "redirect:/board";
 	}
 	
 	
