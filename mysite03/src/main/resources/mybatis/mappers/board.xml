@@ -19,7 +19,7 @@
 	
 	<update id="updateOno" parameterType="boardvo">
 	<![CDATA[
-			update board set MAX(o_no)+1 where g_no =#{no }
+			update board set o_no = o_no + 1 where g_no =#{no }
 		]]>
 	</update>
 

@@ -1,6 +1,8 @@
 package com.douzone.mysite.controller;
 
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +25,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("")
-	public String index(@RequestParam(value = "p", required = true, defaultValue = "1") int page,
+	public String index(@RequestParam(value = "p", required = true, defaultValue = "1") Integer page,
 			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, Model model) {
-		int lastPage = (boardService.count(kwd) - 1) / 5 + 1;
 
-		model.addAttribute("currentPage", page);
-		model.addAttribute("list", boardService.getMessageList(page, kwd));
-		model.addAttribute("count", boardService.count(kwd) - (5 * (page - 1)));
-		model.addAttribute("startPage", boardService.getPage(page, lastPage).get("startPage"));
-		model.addAttribute("endPage", boardService.getPage(page, lastPage).get("endPage"));
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("kwd", kwd);
+		Map<String, Object> map = boardService.getPageAndList(page, kwd);
+		model.addAttribute("map", map);
 		return "board/index";
 	}
 	
@@ -59,8 +55,8 @@ public class BoardController {
 		return "/board/write";
 	}
 	
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(HttpSession session, Long no ,BoardVo vo) {
+	@RequestMapping(value = {"/write","/write/{no}"}, method = RequestMethod.POST)
+	public String write(HttpSession session, @PathVariable(value="no", required = false) Long no ,BoardVo vo) {
 		//접근제어
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if(authUser == null) {
@@ -69,6 +65,7 @@ public class BoardController {
 		///////////////////////////
 		vo.setUser_no(authUser.getNo());
 		boardService.write(vo); 
+		System.out.println("컨트롤러"+vo);
 		return "redirect:/board";
 	}
 	

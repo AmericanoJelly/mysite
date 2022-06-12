@@ -31,9 +31,9 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:forEach items='${list }' var='vo' varStatus='status'>
+					<c:forEach items='${map.list }' var='vo' varStatus='status'>
 						<tr>
-							<td>${count - status.index }</td>
+							<td>${map.count - status.index }</td>
 						<c:choose>
 						<c:when test = "${vo.dept != 1}">
 							<td style="text-align: left; padding-left:${(vo.dept-1)*10}px">
@@ -43,8 +43,7 @@
 							<td style="text-align: left; padding-left: 0px">
 						</c:otherwise>
 						</c:choose>
-							<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a>
-							</td>
+							<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a></td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.reg_date }</td>

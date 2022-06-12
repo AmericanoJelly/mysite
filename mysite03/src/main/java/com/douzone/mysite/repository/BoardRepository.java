@@ -21,19 +21,18 @@ public class BoardRepository {
 	private SqlSession sqlSession;
 
 	public boolean update(BoardVo vo) {
-		boolean result =  sqlSession.insert("board.update", vo) == 1;
-		return result;
+		return sqlSession.insert("board.update", vo) == 1;
 	}
 
 	public boolean delete(Long no) {
 		return sqlSession.delete("board.delete", no) == 1 ;
 	}
 
-
 	public boolean insert(BoardVo vo) {
 		boolean result = false;
 		if (vo.getG_no() != 0) {
 			result = sqlSession.update("board.updateOno", vo) == 1;
+			System.out.println(vo);
 		}
 		result = sqlSession.insert("board.insert", vo) == 1;
 		return result;
