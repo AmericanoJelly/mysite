@@ -51,12 +51,6 @@ public class BoardService {
 	}
 
 	public boolean write(BoardVo vo) {
-		if(vo.getG_no() != 0){
-			BoardVo vo2 = boardRepository.findView(vo.getNo());
-			vo.setG_no(vo2.getG_no());
-			vo.setO_no(vo2.getO_no() + 1);
-			vo.setDept(vo2.getDept() + 1);
-		}
 		return boardRepository.insert(vo);
 	}
 	
@@ -71,7 +65,7 @@ public class BoardService {
 	public boolean updateHit(Long no) {
 		return boardRepository.updateHit(no);
 	}
-		
+
 }
 
 

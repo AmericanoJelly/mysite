@@ -31,10 +31,12 @@ public class BoardRepository {
 
 
 	public boolean insert(BoardVo vo) {
-		if(vo.getG_no() != 0) {
-			return sqlSession.insert("board.comments", vo) == 1;	
+		boolean result = false;
+		if (vo.getG_no() != 0) {
+			result = sqlSession.update("board.updateOno", vo) == 1;
 		}
-		return  sqlSession.insert("board.insert", vo) == 1;
+		result = sqlSession.insert("board.insert", vo) == 1;
+		return result;
 	}
 	
 	public BoardVo findView(Long no) {

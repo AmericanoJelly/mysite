@@ -61,38 +61,62 @@
 				</table>
 
 				<!-- pager 추가 -->
-				<div class="pager">
+					<div class="pager">
 					<ul>
 						<c:choose>
-							<c:when test="${param.page == 1 }">
+							<c:when test="${map.currentPage == 1 }">
 								<li>◀</li>
 							</c:when>
 							<c:otherwise>
-								<li><a
-									href="${pageContext.request.contextPath }board/page/${param.page-1 }">◀</a></li>
+								<c:choose>
+									<c:when test="${empty map.kwd  }">
+										<li><a
+											href="${pageContext.request.contextPath }/board?p=${map.currentPage-1 }">◀</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a
+											href="${pageContext.request.contextPath }/board?p=${map.currentPage-1 }&kwd=${map.kwd }">◀</a></li>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 
-						<c:forEach begin="${startPage }" end="${endPage }" var="page"
-							step="1">
+						<c:forEach begin="${map.startPage }" end="${map.endPage }"
+							var="page" step="1">
 							<c:choose>
-								<c:when test="${param.page == page }">
+								<c:when test="${map.currentPage == page }">
 									<li class="selected">${page }</li>
 								</c:when>
-								<c:when test="${page > lastPage }">
+								<c:when test="${page > map.lastPage }">
 									<li>${page }</li>
 								</c:when>
 								<c:otherwise>
-									<li><a
-										href="${pageContext.request.contextPath }/board/page/${page }">${page }</a></li>
+									<c:choose>
+										<c:when test="${empty map.kwd }">
+											<li><a
+												href="${pageContext.request.contextPath }/board?p=${page }">${page }</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a
+												href="${pageContext.request.contextPath }/board?p=${page }&kwd=${map.kwd }">${page }</a></li>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 
 						<c:choose>
-							<c:when test="${param.page != lastPage }">
-								<li><a
-									href="${pageContext.request.contextPath }/board/page/${param.page+1 }">▶</a></li>
+							<c:when test="${map.currentPage != map.lastPage }">
+								<c:choose>
+									<c:when test="${empty map.kwd }">
+										<li><a
+											href="${pageContext.request.contextPath }/board?p=${map.currentPage+1 }">▶</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a
+											href="${pageContext.request.contextPath }/board?p=${map.currentPage+1 }&kwd=${map.kwd }">▶</a></li>
+									</c:otherwise>
+								</c:choose>
 							</c:when>
 							<c:otherwise>
 								<li>▶</li>

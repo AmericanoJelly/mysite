@@ -6,8 +6,7 @@
 	<choose>
 		<when test='g_no == 0'>
 		<![CDATA[
-		insert into board values
-			 (null, #{title }, #{contents }, 0, now(), (select max(g_no)from board a)+1, 1, 1, #{user_no })
+		insert into board values(null, #{title }, #{contents }, 0, now(), (select max(g_no)from board a)+1, 1, 1, #{user_no })
 		]]>
 		</when>
 		<otherwise>
@@ -17,6 +16,12 @@
 		</otherwise>
 	</choose>
 	</insert>
+	
+	<update id="updateOno" parameterType="boardvo">
+	<![CDATA[
+			update board set MAX(o_no)+1 where g_no =#{no }
+		]]>
+	</update>
 
 	<select id="findView" parameterType="long" resultType="boardvo">
 		<![CDATA[
@@ -32,12 +37,6 @@
 		]]>
 	</update>	
 	
-	<insert id="comments" parameterType="boardvo">
-	<![CDATA[
-			update board set MAX(o_no)+1 where g_no =#{no }
-		]]>
-	</insert>	
-
 
 	<select id="findAll" parameterType="map" resultType="boardvo">
 		<choose>

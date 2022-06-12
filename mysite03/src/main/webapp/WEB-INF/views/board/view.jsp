@@ -37,8 +37,10 @@
 				<div class="bottom">
 				
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<a href="${pageContext.request.contextPath }/board/write/${boardVo.no}">댓글</a>
 					<c:choose>
+					<c:when test="${authUser.no == boardVo.user_no}">
+					<a href="${pageContext.request.contextPath }/board/write/${boardVo.no}">댓글</a>
+					</c:when>
 					<c:when test="${authUser.no == boardVo.user_no}">
 					<a href="${pageContext.request.contextPath }/board/modify/${boardVo.no}">글수정</a>
 					</c:when>

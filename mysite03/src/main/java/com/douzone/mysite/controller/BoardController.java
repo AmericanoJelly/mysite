@@ -60,7 +60,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(HttpSession session, BoardVo vo) {
+	public String write(HttpSession session, Long no ,BoardVo vo) {
 		//접근제어
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if(authUser == null) {
@@ -68,7 +68,7 @@ public class BoardController {
 		}
 		///////////////////////////
 		vo.setUser_no(authUser.getNo());
-		boardService.write(vo);
+		boardService.write(vo); 
 		return "redirect:/board";
 	}
 	
