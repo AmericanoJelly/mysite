@@ -53,11 +53,11 @@ public class UserController {
 		
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
-		
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
 	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(@AuthUser UserVo authUser, UserVo vo) { 
 		vo.setNo(authUser.getNo());

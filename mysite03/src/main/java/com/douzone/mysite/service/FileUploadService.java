@@ -16,20 +16,21 @@ public class FileUploadService {
 	private static String RESTORE_PATH = "/mysite-uploads"; //mac- User/yujin/mysite-uploads
 	private static String URL_BASE = "/assets/gallery";
 
-	public String restore(MultipartFile multipartFile) {
+	public String restoreImage(MultipartFile multipartFile) {
 		String url = null;
 
 		try {
 			byte[] date = multipartFile.getBytes();
-			if ("email".isEmpty()) {
-				return url;
-			}
+		
 			File restoreDirectory = new File(RESTORE_PATH);
 			if (!restoreDirectory.exists()) {
 				restoreDirectory.mkdirs();
 			}
+			if ("email".isEmpty()) {
+				return url;
+			}
 			
-			
+		
 			String originFileName = multipartFile.getOriginalFilename();
 			String extName = originFileName.substring(originFileName.lastIndexOf('.')+1);
 			String restoreFilename = generateSaveFilename(extName);
