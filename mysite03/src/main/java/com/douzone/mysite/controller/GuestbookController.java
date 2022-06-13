@@ -46,10 +46,5 @@ public class GuestbookController {
 		return "redirect:/guestbook";
 	}
 	
-//	@ExceptionHandler(Exception.class) //받아야하는 예외의 타입
-//	public String handlerException() {
-//		return "error/exception";
-//	}
-	
 	
 }
