@@ -5,7 +5,16 @@
 		<div id="header">
 			<h1>관리자페이지</h1>
 			<ul>
-				<li><a href="${pageContext.request.contextPath }">사이트 메인</a><li>
-				<li><a href="${pageContext.request.contextPath }/user/logout">로그아웃</a><li>
+				<c:choose>
+					<c:when test="${empty authUser }">
+						<li><a href="${pageContext.request.contextPath }/user/login">로그인</a><li>
+						<li><a href="${pageContext.request.contextPath }/user/join">회원가입</a><li>
+					</c:when>
+					<c:otherwise>	
+						<li><a href="${pageContext.request.contextPath }/user/update">회원정보수정</a><li>
+						<li><a href="${pageContext.request.contextPath }/user/logout">로그아웃</a><li>
+						<li>${authUser.getName() }님 </li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>

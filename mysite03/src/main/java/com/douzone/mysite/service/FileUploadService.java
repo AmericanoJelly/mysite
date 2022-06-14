@@ -20,16 +20,15 @@ public class FileUploadService {
 		String url = null;
 
 		try {
-			byte[] date = multipartFile.getBytes();
-		
 			File restoreDirectory = new File(RESTORE_PATH);
+			
 			if (!restoreDirectory.exists()) {
 				restoreDirectory.mkdirs();
 			}
-			if ("email".isEmpty()) {
-				return url;
-			}
 			
+			if (multipartFile.isEmpty()) {
+				return null;
+			}
 		
 			String originFileName = multipartFile.getOriginalFilename();
 			String extName = originFileName.substring(originFileName.lastIndexOf('.')+1);

@@ -5,14 +5,16 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.douzone.mysite.security.Auth;
 import com.douzone.mysite.service.FileUploadService;
 import com.douzone.mysite.service.SiteService;
 import com.douzone.mysite.vo.SiteVo;
 
-//@Auth(role="ADMIN")
+@Auth(role="ADMIN")
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -31,13 +33,17 @@ public class AdminController {
 		return "admin/main";
 	}
 	
-	@RequestMapping("/mian/update")
-	public String update(SiteVo vo, @RequestParam("file") MultipartFile multipartFile) {
-		String url = fileUploadService.restoreImage(multipartFile);
-		vo.setProfile_url(url);
+	@RequestMapping(value="/main/update", method=RequestMethod.POST)
+	public String update(SiteVo vo, @RequestParam("file") MultipartFile file) {
+		String profile_url = fileUploadService.restoreImage(file);
 		
-		//siteService.updateSite(vo);
-		return "redirect:/admin/main";
+		if(profile_url != null) {
+			vo.setProfile_url(profile_url);
+		}
+		siteService.updateSite(vo);
+		
+		servletContext.setAttribute("site", vo);
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping("/guestbook")

@@ -7,5 +7,6 @@ select * from site;
 select title, welcome_message, profile_url, discription  from site;
 
 select * from user;
+ delete from user where no = 6;
 alter table user add column role enum('USER','ADMIN') default 'USER' after gender;
 update user set role ='ADMIN' where no = 1;

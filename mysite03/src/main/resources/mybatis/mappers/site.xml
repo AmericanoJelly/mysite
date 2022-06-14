@@ -8,4 +8,20 @@
 	 ]]>
 	</select>
 
+	<update id="updateSite" parameterType="sitevo">
+		<choose>
+			<when test="profile_url != null">
+			<![CDATA[
+				update site 
+				set title=#{title }, welcome_message=#{welcome_message }, profile_url=#{profile_url }, discription=#{discription }
+			]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					update site 
+					set title=#{title }, welcome_message=#{welcome_message }, discription=#{discription }
+				]]>
+			</otherwise>
+		</choose>
+	</update>
 </mapper>

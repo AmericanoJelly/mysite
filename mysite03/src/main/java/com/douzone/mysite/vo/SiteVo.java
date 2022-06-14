@@ -1,11 +1,13 @@
 package com.douzone.mysite.vo;
 
+
 public class SiteVo {
 	private Long no;
 	private String title;
 	private String welcome_message;
 	private String profile_url;
 	private String discription;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -40,6 +42,7 @@ public class SiteVo {
 	public String toString() {
 		return "SiteVo [no=" + no + ", title=" + title + ", welcome_message=" + welcome_message + ", profile_url="
 				+ profile_url + ", discription=" + discription + "]";
-	}	
+	}
+
 
 }

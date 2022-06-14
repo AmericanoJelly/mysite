@@ -1,8 +1,15 @@
 package com.douzone.mysite.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,15 +26,26 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public String join() { //메서드
+	public String join(@ModelAttribute UserVo userVo) { //메서드
 		return "user/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(UserVo vo) {
-		userService.join(vo);
-		return "redirect:/user/joinsuccess";
-	}
+	   public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
+	      if(result.hasErrors()) {
+//	         List<ObjectError> list = result.getAllErrors();
+//	         for(ObjectError error : list) {
+//	            System.out.println(error);
+//	         }
+	    	  
+	    	 model.addAllAttributes(result.getModel());
+//	    	 model.addAttribute("userVo",userVo);	//@ModelAttribute가 자동으로 넘겨줌
+	         return "user/join";
+	      }
+	      
+	      userService.join(userVo);
+	      return "redirect:/user/joinsuccess";
+	   }
 	
 	@RequestMapping("/joinsuccess")
 	public String joinSuccess() {

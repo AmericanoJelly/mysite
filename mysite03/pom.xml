@@ -32,15 +32,21 @@
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		
-		<!-- Spring JDBC  -->
+		<!-- validation -->
+		<dependency>
+		   	<groupId>org.hibernate.validator</groupId>
+		   	<artifactId>hibernate-validator</artifactId>
+		   	<version>6.2.3.Final</version>
+		</dependency>
+
 		
+		<!-- Spring JDBC  -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-jdbc</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
-		
-		
+
 		<!-- MyBatis Core -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
