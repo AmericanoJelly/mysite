@@ -2,6 +2,7 @@ package com.douzone.mysite.controller;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/main/update", method=RequestMethod.POST)
-	public String update(SiteVo vo, @RequestParam("file") MultipartFile file) {
+	public String update(SiteVo vo, @RequestParam("file") MultipartFile file) throws FileUploadException {
 		String profile_url = fileUploadService.restoreImage(file);
 		
 		if(profile_url != null) {

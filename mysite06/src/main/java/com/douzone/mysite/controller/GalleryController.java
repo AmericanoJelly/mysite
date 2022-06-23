@@ -2,6 +2,7 @@ package com.douzone.mysite.controller;
 
 import java.util.List;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,7 @@ public class GalleryController {
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public String upload(
 			@RequestParam(value="comments", required = true, defaultValue = "") String comments,
-			@RequestParam("file") MultipartFile multipartFile ) {
+			@RequestParam("file") MultipartFile multipartFile ) throws FileUploadException {
 		
 		String url = fileuploadService.restoreImage(multipartFile);
 		
